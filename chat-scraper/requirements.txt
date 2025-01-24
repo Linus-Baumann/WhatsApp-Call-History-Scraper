@@ -1,0 +1,5 @@
+pillow
+pyautogui
+pygetwindow
+opencv-python
+scikit-image
