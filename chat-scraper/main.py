@@ -14,8 +14,11 @@ def main():
     region = (whatsapp_window.left, whatsapp_window.top, whatsapp_window.width, whatsapp_window.height)
     print(f"Located WhatsApp window at {region}.")
 
+    iteration = 0
+
     # Capture and scroll
-    for iteration in range(10):  # Capture 10 screenshots
+    while True:
+        print("==================\nIteration: ", iteration)
         screenshot = capture_chat_region(region)
         screenshot_path = os.path.join(output_dir, f"chat_{iteration}.png")
         save_screenshot(screenshot, screenshot_path)
@@ -24,8 +27,9 @@ def main():
             if os.path.exists(screenshot_path):
                 os.remove(screenshot_path)
             break
-        
         scroll_chat()
+        print("==================\n")
+        iteration += 1
         time.sleep(1)
 
 if __name__ == "__main__":

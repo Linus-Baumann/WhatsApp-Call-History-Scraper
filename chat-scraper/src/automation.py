@@ -9,7 +9,7 @@ def locate_whatsapp_window():
     return gw.getActiveWindow()
 
 def scroll_chat(delay=1):
-    pyautogui.press("pageup", presses=1)
+    pyautogui.press("pagedown", presses=1)
     time.sleep(0.5)
-    pyautogui.press("down", presses=3, interval=0.1)
+    pyautogui.press("up", presses=3, interval=0.1)
     print("Scrolled chat.")
