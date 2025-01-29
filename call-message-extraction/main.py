@@ -4,6 +4,7 @@ from src.parser import parse_call_messages
 from src.debug_helper import mark_regions
 from src.screen_analysis import extract_call_message_regions_from_image
 from src.text_extractor import extract_call_messages_from_image, extract_dates_from_image
+from src.file_writer import write_calls_to_csv
 
 def main():
     screenshot_dir = './data/input/'
@@ -20,7 +21,7 @@ def main():
             call_details = parse_call_messages(image, call_messages)
             
             results.extend(call_details)
-            print(call_details)
+            write_calls_to_csv(results)
 
 
 if __name__ == "__main__":
