@@ -5,3 +5,4 @@ A tool to get a call history with a certain contact. As a first goal only the su
 - [ ] Add parameter to specify the tesseract executable path
 - [ ] Move tesseract path to config file
 - [ ] Add config file
+- [ ] Add parameter to enable verbosity (mark the detected regions)
