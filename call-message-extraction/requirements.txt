@@ -1,0 +1,4 @@
+pillow
+pytesseract
+configs
+opencv-python
