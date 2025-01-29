@@ -4,19 +4,30 @@ import pytesseract as tesseract
 # Configure Tesseract executable path
 tesseract.pytesseract.tesseract_cmd = r'E:\Programme\Tesseract\tesseract.exe'
 
-def extract_text_from_image(image_path):
+def extract_call_messages_from_image(image, messages):
     """
-    Extract full text from an image using OCR.
+    Extract full text from the given regions using OCR.
+    :return: A list of extracted call messages with the format: ((x, y, width, height), Video, Content)
     """
-    image = Image.open(image_path)
-    return tesseract.image_to_string(image, lang='deu')  # Use German language for OCR
+    call_messages = []
 
-def extract_date_from_image(image_path):
+    for message in messages:
+        cropped_image = image[message['region'][1]:message['region'][1] + message['region'][3], message['region'][0]:message['region'][0] + message['region'][2]]
+        text = tesseract.image_to_string(cropped_image, lang='deu', config="--psm 7")
+        call_messages.append({
+            'region': message['region'],
+            'type': message['type'],
+            'content': text
+        })
+        print("Extracted text:", text)
+    return call_messages
+
+def extract_dates_from_image(image):
     """
-    Extract the date from the small grey box in the image.
-    Assumes the date is located at two-thirds of the image width and near the top.
+    Extract the dates from the small grey boxes in the image.
+    Assumes the dates are located at two-thirds of the image width.
+    Returns the extracted date as a string with the bottom coordinate of the box.
     """
-    image = Image.open(image_path)
     width, height = image.size
     
     # Crop region containing the date

@@ -1,5 +1,7 @@
 import os
-from src.text_extractor import extract_text_from_image, extract_date_from_image
+import cv2
+from src.text_extractor import extract_dates_from_image
+from src.screen_analysis import extract_call_message_regions_from_image
 from src.parser import parse_call_messages
 
 def process_screenshots(screenshot_dir):
@@ -11,10 +13,12 @@ def process_screenshots(screenshot_dir):
         if filename.endswith('.png') or filename.endswith('.png'):
             image_path = os.path.join(screenshot_dir, filename)
             print(f"Processing: {image_path}")
+            image = cv2.imread(image_path)
             
-            date = extract_date_from_image(image_path)
-            text = extract_text_from_image(image_path)
-            call_messages = parse_call_messages(text, date)
+            dates = extract_dates_from_image(image)
+            call_message_regions = extract_call_message_regions_from_image(image)
+            call_messages = extract_call_messages_from_image(image, call_message_regions)
+            call_details = parse_call_messages(call_messages, dates)
             
-            results.extend(call_messages)
+            results.extend(call_details)
     return results
